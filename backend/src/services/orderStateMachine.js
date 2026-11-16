@@ -25,9 +25,11 @@ async function transitionOrder(orderId, nextStatus, note = '') {
         err.statusCode = 400;
         throw err;
     }
+    const previousStatus = order.status;
     order.status = nextStatus;
     order.statusHistory.push({ status: nextStatus, note });
     await order.save();
+    console.log(`[order] ${order._id}: ${previousStatus} -> ${nextStatus}`);
     return order;
 }
 
